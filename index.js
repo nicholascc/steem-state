@@ -10,7 +10,7 @@
       is using these transactions (interfering transaction with other Dappsids could cause
       errors)
 */
-module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed=1000, prefix='') {
+module.exports = function(client, steem, currentBlockNumber='currentBlock', blockComputeSpeed=1000, prefix='') {
   var onOperation = {};  // Stores the function to be run for each operation id.
 
   var onNewBlock = function() {};
