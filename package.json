@@ -1,0 +1,11 @@
+{
+  "name": "steem-state",
+  "version": "1.0.0",
+  "description": "A framework for developing soft-consenusus decentralized applications on the Steem blockchain.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nicholas-2 (shredz7)",
+  "license": "MIT"
+}
