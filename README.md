@@ -161,6 +161,6 @@ If you run your code using `node index.js` you should get a terminal wher you ca
 
 ## Next 
 
-Learn how to create a token using `steem-state`, read more about building decentralized apps using soft consensus, and read the documentation on the [wiki](https://github.com/nicholas-2/steem-state/wiki).
+Before you start developing your own app, learn how to create a token using `steem-state` and learn about design patterns to use when using `steem-state`, read more about building decentralized apps using soft consensus, and read the documentation on the [wiki](https://github.com/nicholas-2/steem-state/wiki).
 
 *If you have any questions, suggestions, problems, or want advice about incorporating soft-consensus into your project, email me at nicholas2591@gmail.com.*
