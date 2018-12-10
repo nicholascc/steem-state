@@ -14,6 +14,7 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
   var onOperation = {};  // Stores the function to be run for each operation id.
 
   var onNewBlock = function() {};
+  var onStreamingStart = function() {};
 
   var isStreaming;
 
@@ -72,6 +73,7 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
 
   function beginBlockStreaming() {
     isStreaming = true;
+    onStreamingStart();
     stream = client.blockchain.getBlockStream({mode: steem.BlockchainMode.Latest});
     stream.on('data', function(block) {
       var blockNum = parseInt(block.block_id.slice(0,8), 16);
@@ -129,6 +131,10 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
 
     isStreaming: function() {
       return isStreaming;
+    },
+
+    onStreamingStart: function(callback) {
+      onStreamingStart = callback;
     },
 
     stop: function(callback) {
