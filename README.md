@@ -11,9 +11,16 @@ and to use the companion project, `steem-transact`,
 The Steem blockchain is one of the fastest and most performant blockchains in existence and also has over 60,000 active users each day, with free and fast transactions. `steem-state`, along with its companion project, `steem-transact` makes it incredibly easy to create decentralized apps on the Steem blockchain using soft consensus.
 
 #### What is soft-consensus?
-Most blockchain developers are used to creating decentralized apps on blockchains like Ethereum using smart-contracts. But smart contracts are not actually required to build decentralized apps. In fact, one can create much faster and cheaper apps using soft-consensus, and have the same amount of potential, ability, and decentralization as smart contracts do.
 
-Soft consensus is where instead of every single client on a blockchain verifying a transaction such as a smart contract, only nodes who wish to use that DApp have to verify those transactions. In Steem, there is a type of transaction called a `custom_json` transaction that allows developers to create custom transactions containing json data. Then, every user who uses the DApp that the `custom_json` transaction is for will use that transaction to update their internal state. This allows every user using that DApp will have a consensus on what the current state is (state is like storage variables in Solidity smart contracts) without  actually verifying transactions on-chain. You can build everything from a messaging app to a full token to a decentralized game using soft consensus. If you have any questions email me at nicholas2591@gmail.com.
+Most, if not all, blockchains focused on the creation of DApps today such as Ethereum are based around the idea of smart contracts. DApps running using smart contracts have their transactions verified by each node in the network. But this method is not the only way; not every node in the network has to verify every transaction for each DApp even if it doesn’t apply to them. When a transaction is not verified by every node in the network, but only the ones who use the DApp that the transaction applies to verify that transaction, soft-consensus occurs.
+
+To use an analogy, the most adopted internet data transfer protocols (such as UDP) don’t try to do anything special with the data that is being sent. These protocols let the two users who are communicating verify, authenticate, etc their own data. Not everyone on the internet authenticates and verifies every data packet; it’s just not feasible.
+
+Similarly, not everyone on a blockchain has to verify and authenticate every data packet. Ethereum is trying to introduce unneeded complexity to the problem of creating DApps by requiring that every user has to verify every transaction in every DApp, and it’s already hitting a scalabililty barrier partly because of it.
+
+Anything that a smart contract can do can be done with soft-consensus, and soft-consensus can actually do much more. A soft consensus DApp is easy to hard fork without forking the main chain it runs on, and it has easy support for virtual operations (when a DApp creates a transaction that will execute after a certain amount of time), which Ethereum and most smart contract blockchains do not have, and will be implemented into the steem-state package in v2.0.0.
+
+`steem-state` uses the `custom_json` operation type to create soft-consensus transactions. You can read more at the [dev portal](https://developers.steem.io) by searching up `custom_json`.
 
 #### steem-state
 `steem-state` is a framework for building fully decentralized DApps using soft-consensus with the Steem blockchain. Using `steem-state` you can define events that occur when a new transaction of a certain type is created, such as updating the state, displaying feedback for the user, etc. Using these events, you can build a fully decentralized DApp. Look below for an example tutorial.
@@ -58,10 +65,15 @@ Then we'll get the latest block to use as where we'll start processing blocks an
 client.database.getDynamicGlobalProperties().then(function(result) {
 ```
 Then actually create the steem-state instance. This method uses the arguments:
+
 `client`: the dsteem client to get transactions from,
+
 `steem`: a dsteem instance,
+
 `startingBlock`: which block to start at when processing blocks and transactions,
+
 `processSpeed`: the amount of milliseconds to wait before getting the next block (when not fully caught up to the latest block),
+
 `prefix`: the name of your DApp. This prefix is at the beginning of every transaction created for your DApp and ensures that no other DApps will use the same transaction ids as yours. Make sure to make this unique for your DApp! For example, [Steem Monsters](https://steemmonsters.com/), a highly successful Steem DApp, has the prefix `sm_`. We will use the prefix `basic_messaging_app_` for our app.
 
 And we will create it like so, using the result from retreiving the latest block's number:
@@ -96,10 +108,15 @@ rl.on('line', function(input) {
 ```
 
 The `json` function (used for creating a customJSON transaction) has 5 arguments:
+
 `username`: username of the user to send a transaction from,
+
 `key`: the private key of the above user, used to sign the transaction,
+
 `id`: the id of the transaction to create,
+
 `json`: the json of the transaction to create; in this case we create a small object which contains the message,
+
 `callback`: the function to call once the transaction is created (or an error occurs).
 
 Here is the full code:
@@ -140,9 +157,10 @@ rl.on('line', function(input) {
 });
 ```
 
-If you run your code using `node index.js` you should get a terminal wher you can enter in text. Simply type in a message, press enter, and in a few moments your message will show up. Try running multiple instances at the same time to see that it is actually running on a blockchain. 
-## Next
+If you run your code using `node index.js` you should get a terminal wher you can enter in text. Simply type in a message, press enter, and in a few moments your message will show up. Try running multiple instances at the same time to see that it is actually running on a blockchain. You can also look from steemd.com/@your_username_here (a Steem block explorer) to see your recent transactions. You should see a few transactions titled `custom_json` which have the json data of the transactions you created while testing the messaging app.
 
-Learn how to create a token using `steem-state`, read more about building decentralized apps using soft consensus, and read the documentation on the [wiki](https://github.com/nicholas-2/steem-state/wiki).
+## Next 
+
+Before you start developing your own app, learn how to create a token using `steem-state` and learn about design patterns to use when using `steem-state`, read more about building decentralized apps using soft consensus, and read the documentation on the [wiki](https://github.com/nicholas-2/steem-state/wiki).
 
 *If you have any questions, suggestions, problems, or want advice about incorporating soft-consensus into your project, email me at nicholas2591@gmail.com.*
