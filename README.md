@@ -140,6 +140,9 @@ rl.on('line', function(input) {
 });
 ```
 
-If you run your code using `node index.js` you should get a terminal wher you can enter in text. Simply type in a message, press enter, and in a few moments your message will show up. Try running multiple instances at the same time to see that it is actually running on a blockchain. Next, learn how to create a token using `steem-state` on the [wiki](https://github.com/nicholas-2/steem-state/wiki) and read more about building decentralized apps using soft consensus.
+If you run your code using `node index.js` you should get a terminal wher you can enter in text. Simply type in a message, press enter, and in a few moments your message will show up. Try running multiple instances at the same time to see that it is actually running on a blockchain. 
+## Next
+
+Learn how to create a token using `steem-state`, read more about building decentralized apps using soft consensus, and read the documentation on the [wiki](https://github.com/nicholas-2/steem-state/wiki).
 
 *If you have any questions, suggestions, problems, or want advice about incorporating soft-consensus into your project, email me at nicholas2591@gmail.com.*

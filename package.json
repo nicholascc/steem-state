@@ -1,11 +1,23 @@
 {
   "name": "steem-state",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "A framework for developing soft-consenusus decentralized applications on the Steem blockchain.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "nicholas-2 (shredz7)",
-  "license": "MIT"
+  "author": "nicholas2519@gmail.com",
+  "license": "MIT",
+  "repository":"https://github.com/nicholas-2/steem-state",
+  "homepage":"https://github.com/nicholas-2/steem-state",
+  "keywords": [
+    "blockchain",
+    "cryptocurrency",
+    "dapp",
+    "dapps",
+    "decentralization",
+    "dsteem",
+    "steem",
+    "steemit"
+  ]
 }
