@@ -65,10 +65,15 @@ Then we'll get the latest block to use as where we'll start processing blocks an
 client.database.getDynamicGlobalProperties().then(function(result) {
 ```
 Then actually create the steem-state instance. This method uses the arguments:
+
 `client`: the dsteem client to get transactions from,
+
 `steem`: a dsteem instance,
+
 `startingBlock`: which block to start at when processing blocks and transactions,
+
 `processSpeed`: the amount of milliseconds to wait before getting the next block (when not fully caught up to the latest block),
+
 `prefix`: the name of your DApp. This prefix is at the beginning of every transaction created for your DApp and ensures that no other DApps will use the same transaction ids as yours. Make sure to make this unique for your DApp! For example, [Steem Monsters](https://steemmonsters.com/), a highly successful Steem DApp, has the prefix `sm_`. We will use the prefix `basic_messaging_app_` for our app.
 
 And we will create it like so, using the result from retreiving the latest block's number:
@@ -103,10 +108,15 @@ rl.on('line', function(input) {
 ```
 
 The `json` function (used for creating a customJSON transaction) has 5 arguments:
+
 `username`: username of the user to send a transaction from,
+
 `key`: the private key of the above user, used to sign the transaction,
+
 `id`: the id of the transaction to create,
+
 `json`: the json of the transaction to create; in this case we create a small object which contains the message,
+
 `callback`: the function to call once the transaction is created (or an error occurs).
 
 Here is the full code:
