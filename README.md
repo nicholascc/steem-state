@@ -76,9 +76,11 @@ Then actually create the steem-state instance. This method uses the arguments:
 
 `prefix`: the name of your DApp. This prefix is at the beginning of every transaction created for your DApp and ensures that no other DApps will use the same transaction ids as yours. Make sure to make this unique for your DApp! For example, [Steem Monsters](https://steemmonsters.com/), a highly successful Steem DApp, has the prefix `sm_`. We will use the prefix `basic_messaging_app_` for our app.
 
+`mode`: whether to stream blocks as `latest` or `irreversible`. Irreversible is slower but much more secure, while `latest` is faster but can be vulnerable. We will use latest because our messaging app doesn't have to be highly secure, but for most DApps irreversible will be better (irreversible would be similar to waiting for 6 blocks in Bitcoin before confirming a transaction).
+
 And we will create it like so, using the result from retreiving the latest block's number:
 ```
-  var processor = steemState(client, steem, result.head_block_number, 100, 'basic_messaging_app_');
+  var processor = steemState(client, steem, result.head_block_number, 100, 'basic_messaging_app_', 'latest');
 ```
 
 Next we will define what will happen when someone creates a `message` transaction, which will result in a display of that message to the user. After that, we will start the processor:
