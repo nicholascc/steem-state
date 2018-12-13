@@ -62,3 +62,4 @@ typings/
 
 # sometimes used pre-publish testing file
 testing.js
+state.json

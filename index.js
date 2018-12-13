@@ -10,7 +10,7 @@
       is using these transactions (interfering transaction with other Dappsids could cause
       errors)
 */
-module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed=1000, prefix='') {
+module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed=1000, prefix='', mode='latest') {
   var onOperation = {};  // Stores the function to be run for each operation id.
 
   var onNewBlock = function() {};
@@ -24,15 +24,19 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
   var stopCallback;
 
 
-  // Returns the block number of the last block on the chain.
-  function getHeadBlockNumber(callback) {
+  // Returns the block number of the last block on the chain or the last irreversible block depending on mode.
+  function getHeadOrIrreversibleBlockNumber(callback) {
     client.database.getDynamicGlobalProperties().then(function(result) {
-      callback(result.head_block_number)
+      if(mode === 'latest') {
+        callback(result.head_block_number);
+      } else {
+        callback(result.last_irreversible_block_num);
+      }
     })
   }
 
   function isAtRealTime(callback) {
-    getHeadBlockNumber(function(result) {
+    getHeadOrIrreversibleBlockNumber(function(result) {
       if(currentBlockNumber >= result) {
         callback(true);
       } else {
@@ -74,7 +78,11 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
   function beginBlockStreaming() {
     isStreaming = true;
     onStreamingStart();
-    stream = client.blockchain.getBlockStream({mode: steem.BlockchainMode.Latest});
+    if(mode === 'latest') {
+      stream = client.blockchain.getBlockStream({mode: steem.BlockchainMode.Latest});
+    } else {
+      stream = client.blockchain.getBlockStream();
+    }
     stream.on('data', function(block) {
       var blockNum = parseInt(block.block_id.slice(0,8), 16);
       if(blockNum >= currentBlockNumber) {
@@ -111,6 +119,10 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
     */
     on: function(operationId, callback) {
       onOperation[prefix + operationId] = callback;
+    },
+
+    onNoPrefix: function(operationId, callback) {
+      onOperation[operationId] = callback;
     },
 
     /*
