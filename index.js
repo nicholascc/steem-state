@@ -11,7 +11,8 @@
       errors)
 */
 module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed=1000, prefix='', mode='latest') {
-  var onOperation = {};  // Stores the function to be run for each operation id.
+  var onCustomJsonOperation = {};  // Stores the function to be run for each operation id.
+  var onOperation = {};
 
   var onNewBlock = function() {};
   var onStreamingStart = function() {};
@@ -104,9 +105,11 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
 
         var op = transactions[i].operations[j];
         if(op[0] === 'custom_json') {
-          if(typeof onOperation[op[1].id] === 'function') {
-            onOperation[op[1].id](JSON.parse(op[1].json), op[1].required_posting_auths[0]);
+          if(typeof onCustomJsonOperation[op[1].id] === 'function') {
+            onCustomJsonOperation[op[1].id](JSON.parse(op[1].json), op[1].required_posting_auths[0]);
           }
+        } else if(onOperation[op[0]] !== undefined) {
+          onOperation[op[0]](op[1]);
         }
       }
     }
@@ -118,11 +121,15 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
         operationId (with added prefix) is computed.
     */
     on: function(operationId, callback) {
-      onOperation[prefix + operationId] = callback;
+      onCustomJsonOperation[prefix + operationId] = callback;
+    },
+
+    onOperation: function(type, callback) {
+      onOperation[type] = callback;
     },
 
     onNoPrefix: function(operationId, callback) {
-      onOperation[operationId] = callback;
+      onCustomJsonOperation[operationId] = callback;
     },
 
     /*
