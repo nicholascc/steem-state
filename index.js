@@ -56,7 +56,7 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
           processBlock(result, blockNum);
         })
         .catch((err) => {
-          console.log("Error getting block:", err);
+          throw err;
         })
 
       currentBlockNumber++;
@@ -92,7 +92,12 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
       }
     })
     stream.on('end', function() {
-      console.error("Block stream ended unexpectedly.")
+      console.error("Block stream ended unexpectedly. Restarting block computing.")
+      beginBlockComputing();
+    })
+    stream.on('error', function(error) {
+      console.error("Error in block stream:", error, ", restarting block computing.");
+      beginBlockComputing();
     })
   }
 
