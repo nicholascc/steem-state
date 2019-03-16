@@ -2,7 +2,7 @@
 ### Build decentralized apps on the Steem blockchain with ease!
 
 ## Installation
-`npm install steem-state`
+`npm install steem-state@1.3.2`
 and to use the companion project, `steem-transact`,
 `npm install steem-transact`
 
