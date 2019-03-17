@@ -96,8 +96,7 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
       beginBlockComputing();
     })
     stream.on('error', function(error) {
-      console.error("Error in block stream:", error, ", restarting block computing.");
-      beginBlockComputing();
+      throw err;
     })
   }
 
