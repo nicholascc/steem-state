@@ -95,7 +95,7 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
       console.error("Block stream ended unexpectedly. Restarting block computing.")
       beginBlockComputing();
     })
-    stream.on('error', function(error) {
+    stream.on('error', function(err) {
       throw err;
     })
   }
