@@ -99,7 +99,7 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
       throw err;
     })
   }
-
+  
   function processBlock(block, num) {
     onNewBlock(num, block);
     var transactions = block.transactions;
@@ -110,9 +110,14 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
         var op = transactions[i].operations[j];
         if(op[0] === 'custom_json') {
           if(typeof onCustomJsonOperation[op[1].id] === 'function') {
-            onCustomJsonOperation[op[1].id](JSON.parse(op[1].json), op[1].required_posting_auths[0]);
+            var ip = JSON.parse(op[1].json)
+            ip.transaction_id = transactions[i].transaction_id
+            ip.block_num = transactions[i].block_num
+            onCustomJsonOperation[op[1].id](ip, op[1].required_posting_auths[0]);
           }
         } else if(onOperation[op[0]] !== undefined) {
+          op[1].transaction_id = transactions[i].transaction_id
+          op[1].block_num = transactions[i].block_num
           onOperation[op[0]](op[1]);
         }
       }
