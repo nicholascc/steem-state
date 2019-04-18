@@ -99,8 +99,8 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
       throw err;
     })
   }
-  
-function processBlock(block, num) {
+
+  function processBlock(block, num) {
     onNewBlock(num, block);
     var transactions = block.transactions;
 
@@ -113,6 +113,9 @@ function processBlock(block, num) {
             var ip = JSON.parse(op[1].json),
                 from = op[1].required_posting_auths[0],
                 active = false
+            var ip = JSON.parse(op[1].json);
+            var from = op[1].required_posting_auths[0];
+            var active = false;
             ip.transaction_id = transactions[i].transaction_id
             ip.block_num = transactions[i].block_num
             if(!from){from = op[1].required_auths[0];active=true}
