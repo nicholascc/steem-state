@@ -9,8 +9,11 @@
     prefix: The prefix to use for each transaction id, to identify the DApp which
       is using these transactions (interfering transaction with other Dappsids could cause
       errors)
+    mode: Whether to stream blocks as `latest` or `irreversible`.
+    unexpectedStopCallback: A function to call when steem-state stops unexpectedly
+      due to an error.
 */
-module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed=1000, prefix='', mode='latest') {
+module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed=1000, prefix='', mode='latest', unexpectedStopCallback=function(){}) {
   var onCustomJsonOperation = {};  // Stores the function to be run for each operation id.
   var onOperation = {};
 
@@ -33,6 +36,9 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
       } else {
         callback(result.last_irreversible_block_num);
       }
+    }).catch(function (err) {
+      console.log("Error, steem-state is unexpectedly stopping:", err)
+      unexpectedStopCallback(err)
     })
   }
 

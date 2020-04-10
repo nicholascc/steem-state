@@ -78,6 +78,8 @@ Then actually create the steem-state instance. This method uses the arguments:
 
 `mode`: whether to stream blocks as `latest` or `irreversible`. Irreversible is slower but much more secure, while `latest` is faster but can be vulnerable. We will use latest because our messaging app doesn't have to be highly secure, but for most DApps irreversible will be better (irreversible would be similar to waiting for 6 blocks in Bitcoin before confirming a transaction).
 
+`unexpectedStopCallback`: a function to be called upon an unexpected stop of steem-state due to an error. The function should take one argument, which is the error which is causing the stop.
+
 And we will create it like so, using the result from retreiving the latest block's number:
 ```
   var processor = steemState(client, steem, result.head_block_number, 100, 'basic_messaging_app_', 'latest');
@@ -161,7 +163,7 @@ rl.on('line', function(input) {
 
 If you run your code using `node index.js` you should get a terminal wher you can enter in text. Simply type in a message, press enter, and in a few moments your message will show up. Try running multiple instances at the same time to see that it is actually running on a blockchain. You can also look from steemd.com/@your_username_here (a Steem block explorer) to see your recent transactions. You should see a few transactions titled `custom_json` which have the json data of the transactions you created while testing the messaging app.
 
-## Next 
+## Next
 
 Before you start developing your own app, learn how to create a token using `steem-state` and learn about design patterns to use when using `steem-state`, read more about building decentralized apps using soft consensus, and read the documentation on the [wiki](https://github.com/nicholas-2/steem-state/wiki).
 
