@@ -116,6 +116,9 @@ module.exports = function(client, steem, currentBlockNumber=1, blockComputeSpeed
         var op = transactions[i].operations[j];
         if(op[0] === 'custom_json') {
           if(typeof onCustomJsonOperation[op[1].id] === 'function') {
+            var ip = JSON.parse(op[1].json),
+                from = op[1].required_posting_auths[0],
+                active = false
             var ip = JSON.parse(op[1].json);
             var from = op[1].required_posting_auths[0];
             var active = false;
